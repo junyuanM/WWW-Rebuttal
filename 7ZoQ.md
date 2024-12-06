@@ -67,16 +67,11 @@ Thank you for the reviewer’s valuable feedback regarding the impact of network
 
 In response, we have conducted experiments to assess how changes in network topology affect AgentSafe's defense capabilities. The results are as follows:
 
-| Topology/num                  | 1    | 2    | 3    |
-| ----------------------------- | ---- | ---- | ---- |
-| Chain with Agentsafe          | 0.87 | 0.95 | 0.82 |
-| Chain w/o Agentsafe           | 0.87 | 0.95 | 0.82 |
-| Cycle with Agentsafe          | 0.43 | 0.55 | 0.39 |
-| Cycle w/o Agentsafe           | 0.43 | 0.55 | 0.39 |
-| Binary Tree with Agentsafe    | 0.87 | 0.95 | 0.82 |
-| Binary Tree w/o Agentsafe     | 0.87 | 0.95 | 0.82 |
-| Complete Graph with Agentsafe | 0.87 | 0.95 | 0.82 |
-| Complete Graph w/o Agentsafe  | 0.87 | 0.95 | 0.82 |
+| Topology/Num   | 4    | 5    | 6    |
+| -------------- | ---- | ---- | ---- |
+| Chain          | 0.73 | 0.78 | 0.76 |
+| Cycle          | 0.74 | 0.78 | 0.78 |
+| Complete Graph | 0.75 | 0.85 | 0.76 |
 
 1. **Adding Agents**: When new agents are added to the network, AgentSafe automatically adjusts to ensure coordination between the newly added agents and the existing ones, preventing attackers from exploiting the changes. The experiments show that the defense effectiveness remains stable even after adding new agents, and the new agents contribute effectively to the defense tasks.
 
@@ -90,24 +85,24 @@ These experimental results demonstrate that AgentSafe can effectively adapt to c
 
 We would like to clarify that we did not consider the separate impact of each component on defense because we believe that the two components, as a whole, complement each other in achieving better security. However, in order to better assess the individual contributions of **ThreatSieve** and **HierarCache** to security, and to facilitate future optimization, we have added **Ablation experiments** that test each component separately. The results are shown in **Table 1 and 2**.
 
-The experiments used datasets **A** and **B**, which contain a large number of tasks related to writing and generating code. In these tasks, agents require key data from other agents to complete the task. We tested the performance of the agents both with and without AgentSafe under TBA and MBA conditions.
+The experiments used datasets, which contain a large number of tasks related to writing and generating code. In these tasks, agents require key data from other agents to complete the task. We tested the performance of the agents both with and without AgentSafe under TBA and MBA conditions.
 Table 1: TBA
 
-| Attack Method(TBA) | A    | B    | C    |
+| Structure/Communication Turn | 10    | 20    | 30    |
 | ------------------ | ---- | ---- | ---- |
-| Agentsafe          | 0.87 | 0.95 | 0.82 |
-| ThreatSieve        | 0.87 | 0.95 | 0.82 |
-| HierarCache        | 0.87 | 0.95 | 0.82 |
-| w/o Agentsafe      | 0.43 | 0.55 | 0.39 |
+| Agentsafe          | 0.73 | 0.65 | 0.52 |
+| ThreatSieve        | 0.55 | 0.52 | 0.44 |
+| HierarCache        | 0.37 | 0.30 | 0.33 |
+| w/o Agentsafe      | 0.24 | 0.25 | 0.24 |
 
 Table 2: MBA
 
-| Attack Method(MBA) | A    | B    | C    |
+| Structure/Communication Turn | 10    | 20    | 30    |
 | ------------------ | ---- | ---- | ---- |
-| Agentsafe          | 0.87 | 0.95 | 0.82 |
-| ThreatSieve        | 0.87 | 0.95 | 0.82 |
-| HierarCache        | 0.87 | 0.95 | 0.82 |
-| w/o Agentsafe      | 0.43 | 0.55 | 0.39 |
+| Agentsafe          | 0.95 | 0.91 | 0.90 |
+| ThreatSieve        | 0.44 | 0.52 | 0.47 |
+| HierarCache        | 0.71 | 0.70 | 0.76 |
+| w/o Agentsafe      | 0.25 | 0.19 | 0.15 |
 
 As shown in the table, the defense rate is higher when ThreatSieve and HierarCache are present individually compared to when AgentSafe is absent. However, it is still significantly lower than the defense rate achieved by the combined AgentSafe architecture.
 
