@@ -142,17 +142,30 @@ We have added more details in the methodology, just as in W3, and we have put th
 
 > <font color=FireBrick>**Weakness 5**</font>: Is ThreatSieve simply authenticating the communication channel between the agents? What does its cryptographic verification and authority validation look in practice? Is it based on an existing protocol? 
 
-1. **Identity Verification in MAS**  
-   In our framework, agents communicate in natural language, and the exchanged content is structured, such as in JSON files. Currently, research in Multi-Agent Systems (MAS) is still in its early stages, and experiments typically assume that identity spoofing does not occur. Each agent takes on a specific role, and communication follows a pre-designed process.
+- The conversations between agents are conducted in natural language, while the content of the communication adheres to a more structured format, such as the JSON file specification.
 
-2. **Identity Verification Process**  
-   To verify identity, we call APIs and extract information from the source agent to determine its identity. However, because the content is in natural language, even if we inform the target agent of an impostor, there remains a risk of misjudgment during task processing by the LLM.
+- Research on multi-agent systems is still in its early stages. Experiments are generally carried out under the assumption that identity substitution does not occur; each agent assumes a predefined role, and the communication between agents follows a designed protocol.
 
-3. **Handling Incorrect Identity**  
-   In **AgentSafe**, if an incorrect identity is detected, the related information is immediately treated as junk information. This helps prevent attacks that may succeed due to the non-deterministic behavior of LLMs when processing tasks.
+- Since agents process natural language through LLMs, even if the target agent is explicitly informed via a prompt that the other party is a fake identity, there remains a risk of misjudgment during task processing. This can be attributed to the positive feedback that erroneous tokens corresponding to fake information can generate within the LLM, leading to misinterpretations.
 
-4. **Future Considerations for Server-Based Agents**  
-   If each agent is placed on a different server in the future, then the first thing to do for agent information confirmation is to confirm the information between servers, and this is something that needs to be considered at a lower level than MAS.
+- To mitigate this risk, in **AgentSafe**, identity is verified by extracting information about the source agent through an API call and a specific program. If an incorrect identity is detected, the associated information is immediately treated as "junk information," thus preventing successful attacks that arise from the inherent non-determinism in LLM task processing.
+
+- The whole process of extracting identity information from the communication content can be mathematically expressed as: $\text{ID}_i = E(I, \text{field}_m)$, $E$ means extracting content from I, the identity information is in field $\text{field}_m$, and extracting all identities $\theta$ in $I$ by calling **API** and **LLM** $l$: $\theta = \{\vartheta_1, ..., \vartheta_n \} = l\left(I,P, C\right)$, where $P$ is a specific prompt, which we added in the appendix, and $C$ is the context.
+
+  Furthermore, the identification process is:
+
+$$
+Iv(v_i, v_j) = \begin{cases} 
+1 &amp; \text{if } \prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 1 \\
+0 &amp; \text{if } \prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 0
+\end{cases}
+$$
+
+  Among them, $\prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C)$ is the identification process, $M(ID_i, \vartheta_k, P^{\prime}, C) = 1$ means that the identity information $\vartheta_k$ is not a replaced identity. 
+  When $\prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 1$, it means that all identities are not forged identities. If there is an identity authentication failure of i, then $\prod_{k=1}^{n} M(ID_i, \vartheta_k, 
+  P^{\prime}, C) = 0$, that is, $Iv(v_i, v_j) = 0$.
+
+- If each agent is placed on a different server in the future, then the first thing to do for confirming the agent information is to confirm the information between servers, and this is something that needs to be considered at a lower level than MAS.
 
 > <font color=FireBrick>**Weakness 6**</font>: How does Agentsafe characterize junk memory? How does Agentsafe identify this in practice and how are these terms defined in different contexts?
 
