@@ -71,24 +71,6 @@ From the perspective of traditional network research, it is indeed reasonable to
 
 Of course, we believe that as relevant research progresses, MAS will indeed face the problem of more nodes as you have considered in the future, and our work has laid a solid foundation for it. Our current work **focuses on exploring foundational mechanisms for agent safety** and does not yet address scalability in extreme cases. 
 
----
-
-[1] CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society
-
-[2] ChatDev：Communicative Agents for Software Development
-
-[3] AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation
-
-[4] BlockAgents: Towards Byzantine-Robust LLM-Based Multi-Agent Coordination via Blockchain
-
-[5] AgentVerse: Facilitating Multi-Agent Collaboration And Exploring Emergent Behaviors
-
-[6] AutoDefense: Multi-Agent LLM Defense against Jailbreak Attacks
-
-[7] MetaGPT: Meta Programming For A Multi-Agent Collaborative Framwork
-
-
-
 > <font color=FireBrick>**Question 1**</font>: How does AgentSafe handle dynamic changes in agent permissions or security levels during runtime?
 
 Given that GPT is a black-box model, adjusting its internal parameters is not feasible. As a result, the security of the model is inherently determined by its structure. This makes it particularly difficult to consider dynamic changes in LLMs.To address this challenge, we have shifted our focus to exploring different security scenarios. We believe this approach provides a more practical and reasonable solution.
@@ -134,7 +116,7 @@ $$
 
 Where $\rho$ represents prompt, $\mathcal{C}$ represents the instruction library, and $M_{\text{junk}}^t$ represents the information in the junk memory at time $t$.
 
-The difference between this and the previous step of calling the API to determine information is that this step is more reflective (Camel [1], Reflexion [2]). We designed a more reasonable prompt $\rho$, which can be expressed as the following formula:
+The difference between this and the previous step of calling the API to determine information is that this step is more reflective (Camel [1], Reflexion [8]). We designed a more reasonable prompt $\rho$, which can be expressed as the following formula:
 
 $$
 \rho^t = \{ \text{reflextion},  C, M_{\text{junk}}^t\}
@@ -154,7 +136,7 @@ After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F
 
 
 - **Experiment to Validate the Importance of This Step**:  
-  To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on subsequent jailbreak attempts with and without this step.
+  To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on TBA and MBA with and without this step.
 
 | state/num | 1    | 2    | 3    |
 | --------- | ---- | ---- | ---- |
@@ -166,14 +148,7 @@ After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F
 
 - **Future Work**:  
   We are working to supplement these findings and will add the experiment results to the appendix. If there are any updates, we will include them in the discussion phase.
-
----
-
-[1]CAMEL: Communicative Agents for "Mind" Exploration of Large Language Model Society
-
-[2]Reflexion: Language Agents with Verbal Reinforcement Learning
-
-
+  
 
 > <font color=FireBrick>**Question 4**</font>: How might AgentSafe be adapted or extended to handle emerging attack vectors that may not fit into the current TBA or MBA categories?
 
@@ -182,6 +157,26 @@ We agree that emerging attack vectors may not fit neatly into the existing TBA o
 - **Dynamic Threat Detection and Adaptation**: We propose integrating machine learning capabilities into AgentSafe, enabling it to identify and respond to new attack patterns in real time. This would allow the system to adapt to novel attack types without requiring a complete overhaul.
 - **Expanding Attack Categories**: In addition to TBA and MBA, we plan to introduce hybrid attack categories to address more complex threats that combine elements of both topology and memory attacks. 
 - **Collaborative Defense and Continuous Learning**: We also suggest enhancing collaboration among agents, allowing them to share information and improve threat detection through continuous learning. 
+
+---
+
+[1] CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society
+
+[2] ChatDev：Communicative Agents for Software Development
+
+[3] AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation
+
+[4] BlockAgents: Towards Byzantine-Robust LLM-Based Multi-Agent Coordination via Blockchain
+
+[5] AgentVerse: Facilitating Multi-Agent Collaboration And Exploring Emergent Behaviors
+
+[6] AutoDefense: Multi-Agent LLM Defense against Jailbreak Attacks
+
+[7] MetaGPT: Meta Programming For A Multi-Agent Collaborative Framwork
+
+[8]Reflexion: Language Agents with Verbal Reinforcement Learning
+
+
 
 Thanks and Regrads,
 
