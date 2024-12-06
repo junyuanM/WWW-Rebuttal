@@ -61,7 +61,7 @@ We appreciate your feedback and would like to clarify the process:
 
 - The construction of the dataset first determines the task. For example, the task of agentsafe includes basic information between agents and various attack statements. Then, like many articles in the existing LLM agent field [], the generation of the dataset is to first generate a large amount of information or questions through LLM, and then manually review to generate the dataset.
 
-- Regarding the construction of the agent access hierarchy, we built the hierarchical datasets RIOH and WCEI for mas in simulating human interaction [camel] and company scenarios [chatdev]. MAS applications are emerging across various industries. For example, ChatDev [3] simulates a technology company to develop code, and Agent Hospital [4] simulates a fully AI-driven hospital to assist patients. In these applications, agents perform specific roles and collaborate to accomplish tasks. However, these systems lack a layered information management framework. This means that sensitive information from higher-level decision-makers, such as company executives or hospital administrators, may inadvertently leak through lower-level agents. Therefore, constructing a dataset that is of practical significance is crucial. Our experiments also prove that AgentSafe can provide effective defense in different fields.
+- Regarding the construction of the agent access hierarchy, we built the hierarchical datasets RIOH and WCEI for mas in simulating human interaction[6] and company scenarios[7]. MAS applications are emerging across various industries. For example, ChatDev [3] simulates a technology company to develop code, and Agent Hospital[9] simulates a fully AI-driven hospital to assist patients. In these applications, agents perform specific roles and collaborate to accomplish tasks. However, these systems lack a layered information management framework. This means that sensitive information from higher-level decision-makers, such as company executives or hospital administrators, may inadvertently leak through lower-level agents. Therefore, constructing a dataset that is of practical significance is crucial. Our experiments also prove that AgentSafe can provide effective defense in different fields.
 
 
 [1] A Unified Lottery Ticket Hypothesis for Graph Neural Networks
@@ -77,6 +77,10 @@ We appreciate your feedback and would like to clarify the process:
 [6] CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society
 
 [7] Reflexion: Language Agents with Verbal Reinforcement Learning
+
+[8] ChatDev: Communicative Agents for Software Development
+
+[9] Agent Hospital: A Simulacrum of Hospital with Evolvable Medical Agents
 
 Warm regards,
 
