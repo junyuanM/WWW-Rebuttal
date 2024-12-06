@@ -42,20 +42,7 @@ In addition to personal data, the RIOH dataset also includes relationship inform
 
 * **(Nathaniel Carter, Olivia Mitchell)**: Colleagues have noticed a professional relationship between these two agents, and they share information categorized under the "colleague information" security level.
 
-**Q3**: We have considered the structure and framework of MAS, including various topological and graph structures, such as tree structures, ring structures, and others. We have provided a table to explain the results, and we found that under the **AgentSafe** framework, different MAS configurations can be effectively protected. Since our framework does not take into account other architectures, we focused on evaluating different topological structures.
-
-**Assumptions**:
-
-1. Memory can be hierarchical.
-2. Some agents are malicious and attempt to access the private information of other agents.
-
-We ensure that, in the **AgentSafe** framework, certain information cannot be passed downstream. For example, **Meta GPT**[1] operates in a hierarchical manner, and **CAMEL**[2] ensures that some information remains protected. Since our structure does not consider other frameworks, we specifically focused on exploring various topological structures.
-
----
-
-### Experiment Results:
-
-We considered various topologies and evaluated their performance under the AgentSafe framework. The table below shows the results for different topologies and their protection effectiveness:
+**Q3**: We have considered the structure and framework of MAS, including various topological and graph structures[1, 2], such as tree structures, ring structures, and others. We have provided a table to explain the results, and we found that under the **AgentSafe** framework, different MAS configurations can be effectively protected. Since our framework does not take into account other architectures, we focused on evaluating different topological structures. The table below shows the results for different topologies and their protection effectiveness:
 
 | Topology/Num   | 4    | 5    | 6    |
 | -------------- | ---- | ---- | ---- |
@@ -66,8 +53,9 @@ We considered various topologies and evaluated their performance under the Agent
 ### Key Findings:
 From the table, we observe that regardless of the number of agents in the MAS, **AgentSafe** provides **high defense** against **TBA** attacks. The framework successfully prevents harmful agents from accessing sensitive information and maintains performance integrity across various topologies.
 
-### Additional Assumptions for the Experiment:
+### Additional Assumptions:
 For the MAS setup in our experiments, we made the following assumptions:
+- Memory can be hierarchical.
 - Some agents are malicious and attempt to access other agents' private information.
 - Each agent has an independent memory used to store historical conversation data.
 - Each agent processes the obtained information to provide responses.
@@ -83,13 +71,11 @@ These assumptions are commonly found in real-world applications of multi-agent s
    ThreatSieve uses permission levels to control communication between agents. Communication is only allowed if the sender’s permission level is greater than or equal to that of the receiver. This is implemented through the following function:
 
 $$
-\begin{equation}
 A(v_i, v_j, t) = 
 \begin{cases}
 1, & \text{if } \ell(v_i) \geq \ell(v_j) \\
 0, & \text{otherwise}
-\end{cases},
-\end{equation}
+\end{cases}
 $$
 
 where `l(v)` denotes the permission level of agent `v`.
@@ -99,13 +85,11 @@ where `l(v)` denotes the permission level of agent `v`.
 ThreatSieve also evaluates the legitimacy of each communication message. This is implemented through the following function:
 
 $$
-\begin{equation}
 C(v_i, v_j, t) = 
 \begin{cases}
 \text{Valid}, & \text{if } A(v_i, v_j, t) = 1 \land Iv(v_i, v_j) = 1 \\
 \text{Invalid}, & \text{otherwise}
-\end{cases},
-\end{equation}
+\end{cases}
 $$
 where `Iv(vi, vj) = 1` indicates that the identity of `vi` has been verified. This ensures that unauthorized or unverified communications are filtered out before reaching the target agent.
 
