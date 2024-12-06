@@ -2,93 +2,73 @@ Dear Reviewer G9px:
 
 Thank you for your thoughtful and constructive feedback. We greatly appreciate the time and effort you have invested in reviewing our work. Below, we provide responses to your concerns and suggestions, along with the revisions we have made to address them.
 
-> **Q1**:The relevance of LLMs and MAS to Web security and privacy is unclear to me.
+> <font color=FireBrick>**Question 1**</font>: The relevance of LLMs and MAS to Web security and privacy is unclear to me.
 
-Recent studies show that MAS and the Web have a clear correlation[OASIS]. Each node in MAS can be understood as an entity in the Web. The security challenges in MAS are similar to those in Web, but with the addition of collaboration and information sharing between agents. The introduction of LLM may change the form of security threats.
+We believe that MAS and the Web have a clear correlation, because each node in MAS can be understood as an entity in the Web. The security challenges in multi-agent systems are similar to those in Web systems, but with the addition of collaboration and information sharing between agents. The introduction of LLM may change the form of security threats.
 
 - **LLMs in Web Security and Privacy**: LLMs can analyze large amounts of data to detect vulnerabilities, identify threats, and provide real-time responses, making them valuable tools for enhancing Web security.
 - **MAS in Web Security and Privacy**: In a Multi-Agent System, multiple agents (including LLMs) can collaborate to model attack scenarios, detect adversarial behavior, and coordinate defense mechanisms, offering new ways to manage security and privacy in decentralized Web environments.
 
-> **Q2**:Authors omitted any discussions about the details of their system with regards to implementation.
+> <font color=FireBrick>**Question 2**</font>: Authors omitted any discussions about the details of their system with regards to implementation. 
 
 To make it easier for readers to understand, we have included specific details in the article including:
 
-- For a **clearer formulation**, 我们使用了更加清晰的公式化表达，并在附录中增加了notation表。比如W5的内容。以及在HierarCache中关于validation函数和periodic detection mechanism的更多的公式化表达
+- For a **clearer formulation**, we use the term threatsieve and hiarcache in this article to represent... At the same time, we optimized the... (formula) and added the... **notation table** in the appendix.
+- The **technical details are clearer** (the first work to consider MAS layering; the first systematic consideration of memory security issues and security frameworks; threatsieve uses..., junk memory...)
 
-  (复制)
+> <font color=FireBrick>**Question 3**</font>: I didn't find the value in most of the formal definitions in the paper.
 
-- 同时我们对计算开销进行了理论推导以证明Agentsafe的开销对性能的影响整体偏好。
+We found it **necessary to give formula definitions** in the introduction. These concepts are common in the graph(LTH [1], Snowflake [2], GPTSwarm [3], OpenGraph [4], DHGR [5]).We believe that the expression of formulas is more convenient for subsequent work and helps readers follow our research. At the same time, we agree that the formulas in the introduction are too bloated. We have deleted the formulas, but the formulas in the main text are meaningful.
 
-  (复制)
+[1] A Unified Lottery Ticket Hypothesis for Graph Neural Networks
 
-  **Q3**:I didn't find the value in most of the formal definitions in the paper.
+[2] The Snowflake Hypothesis: Training and Powering GNN with One Node One Receptive Field
 
-We found it **necessary to give formula definitions** in the introduction. These concepts are common in the graph(LTH[1], Snowflake[2], GPTSwarm[3], OpenGraph[4], DHGR[5]).We believe that the expression of formulas is more convenient for subsequent work and helps readers follow our research. At the same time, we agree that the formulas in the introduction are too bloated. We have deleted the formulas, but the formulas in the main text are meaningful.
+[3] GPTSwarm: Language Agents as Optimizable Graphs
 
-[1]A Unified Lottery Ticket Hypothesis for Graph Neural Networks
+[4] OpenGraph: Towards Open Graph Foundation Models
 
-[2]The Snowflake Hypothesis: Training and Powering GNN with One Node One Receptive Field
+[5] Make Heterophilic Graphs Better Fit GNN: A Graph Rewiring Approach
 
-[3]GPTSwarm: Language Agents as Optimizable Graphs
+> <font color=FireBrick>**Question 4**</font>: The space in the paper could have been used for topics such as details of the system, or the discussion of system components that is currently in the Appendix
 
-[4]OpenGraph: Towards Open Graph Foundation Models
+We will add ... in the appendix
 
-[5]Make Heterophilic Graphs Better Fit GNN: A Graph Rewiring Approach
+> <font color=FireBrick>**Question 5**</font>: Is ThreatSieve simply authenticating the communication channel between the agents? What does its cryptographic verification and authority validation look in practice? Is it based on an existing protocol? 
 
-> **Q4**:The space in the paper could have been used for topics such as details of the system, or the discussion of system components that is currently in the Appendix
+1. **Identity Verification in MAS**  
+   In our framework, agents communicate in natural language, and the exchanged content is structured, such as in JSON files. Currently, research in Multi-Agent Systems (MAS) is still in its early stages, and experiments typically assume that identity spoofing does not occur. Each agent takes on a specific role, and communication follows a pre-designed process.
 
-我们删除了introduction的公式，并将空出来的部分用在methodology更详细的表达。由于补充的内容较多，我们将补充的其他内容添加到了appendix.
+2. **Identity Verification Process**  
+   To verify identity, we call APIs and extract information from the source agent to determine its identity. However, because the content is in natural language, even if we inform the target agent of an impostor, there remains a risk of misjudgment during task processing by the LLM.
 
-> **Q5**:Is ThreatSieve simply authenticating the communication channel between the agents? What does its cryptographic verification and authority validation look in practice? Is it based on an existing protocol? 
+3. **Handling Incorrect Identity**  
+   In **AgentSafe**, if an incorrect identity is detected, the related information is immediately treated as junk information. This helps prevent attacks that may succeed due to the non-deterministic behavior of LLMs when processing tasks.
 
-- agent之间的对话是以自然语言形式存在的，然后交流的内容以一种较为严格的形式存在，比如json文件定义的格式。
+4. **Future Considerations for Server-Based Agents**  
+   If each agent is placed on a different server in the future, then the first thing to do for agent information confirmation is to confirm the information between servers, and this is something that needs to be considered at a lower level than MAS.
 
-- 在现有的multi agent system研究处于早期，由于实验的进行都是默认不存在身份的顶替，每个agent充当一个role，agent之间的交流有着设计好的流程。
+> <font color=FireBrick>**Question 6**</font>: How does Agentsafe characterize junk memory? How does Agentsafe identify this in practice and how are these terms defined in different contexts?
 
-- 由于agent通过LLM处理自然语言，即使通过prompt告知目标agent对方是假身份，依然存在着LLM处理task时判断失误的风险。这归结于假信息对应token在LLM内部对判断失误有着正向反馈[cite]
+We appreciate your feedback and would like to clarify the process:
 
-- 因此在agentsafe中，通过调用api和特定的程序提取信息来源agent的信息从而判断身份，识别出错误的身份则相关的信息直接作为junk information处理，从而避免了由于LLM处理task的非确定性导致攻击成功。
+1. **Definition of Junk Information**:  
+   Junk information refers to harmful content that is irrelevant to the agent’s tasks, including misleading, erroneous, biased, or contradictory information.
 
-  从通信内容中提取身份信息的整个过程数学化表示为： $\text{ID}_i = E(I, \text{field}_m)$, $E$表示从I中提取内容，身份信息在字段$\text{field}_m$中，并通过调用 **API** 和 **LLM** $l$ 来完成对$I$中所有身份$\theta$的提取: $\theta = \{\vartheta_1, ..., \vartheta_n \} = l\left(I,P, C\right)$,其中$P$为特定prompt，我们加入附录中，$C$为上下文语境
+2. **Before Information Enters Memory**:  
+   We use two methods to assess information before it is stored in memory:
 
-  进一步，识别过程为
-  $$
-  Iv(v_i, v_j) = \begin{cases} 
-  1 & \text{if } \prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 1 \\
-  0 & \text{if } \prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 0
-  \end{cases}
-  $$
-  其中$\prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C)$就是识别过程，$M(ID_i, \vartheta_k, P^{\prime}, C) = 1$ 表示身份信息 $\vartheta_k$ 不是顶替的身份。$\prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 1$时，说明所有身份均不是伪造身份，如果存在一个i身份验证失败，则$\prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 0$，即$Iv(v_i, v_j) = 0$.
+   * **API Call**: A designed prompt, which includes descriptions of different permission levels, helps the LLM determine the correct level of access.
+   * **Vector Comparison**: We compare the information against predefined permission levels using vector mappings.
 
-  身份信息
+3. **For Information Stored in Memory**:  
+   For stored information, we ensure that each interaction is contextually designed for retrieval. Then, we apply the same method of using a prompt to assess the permission level. The main difference here is that this step is more reflective, considering the context of the information (see Camel [1], Reflexion [2]).
 
-  从代理 $v_i$ 的通信内容 $I$中提取身份信息 $\text{ID}_i$，这一过程是通过调用 **API** 和 **LLM** $l$ 来完成的: $\text{ID}_i = l\left(I, C\right)$,其中$C$为上下文语境
+[1] CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society
 
-- 如果未来每一个agent都放在不同的服务器上，那么对于agent信息的确认首先要做的是服务器之间的信息确认，而这个就是和mas比更底层需要考虑的事情了。（分层）
+[2] Reflexion: Language Agents with Verbal Reinforcement Learning
 
+Warm regards,
 
-
-> **Q6**:How does Agentsafe characterize junk memory? How does Agentsafe identify this in practice and how are these terms defined in different contexts?
-
-Explain junk memory
-
-垃圾信息的定义：与agent节点涉及的任务毫不相关的、具有错误诱导性的甚至是包含bias和相反内容等的有害信息
-
-在信息还未进入memory之前，我们具体通过两种方法实现，其一是调用api，通过设计合理的prompt包括对instruction各个权限级别的描述来让LLM实现对权限级别的判断；其二是通过vector映射与各个级别的instruction描述对比来判断。
-
-对于存储在memory中的信息，我们对上下文进行设计，确保可以通过遍历单独拿出每一次交互的信息，然后我们通过设计合理的prompt包括对instruction各个权限级别的描述来让LLM实现对权限级别的判断，这里与前文调用api判断的不同在于这一步更具有反思性（cite camel, reflexiongpt）。
-
-
-
-> - What is the effort involved in building Agentsafe and marking data and agent access hierarchy?
-
-构建agentsafe的工作重心在于整体架构的设计以及实验确保每一个部分能完好的运行。我们已经在文章中丰富了methodology的表达。
-
-数据集的构建首先是确定任务，比如agentsafe的任务包括各个agent之间的基础信息，以及各种攻击的语句。然后和现有的LLM agent领域的很多文章的做法一样[cite]，数据集的生成是首先通过LLM生成大量的信息或者问题，然后人为的审查从而生成了数据集。
-
-关于agent access hierarchy的构建，我们构建了针对mas在模拟人类交互[camel]和公司场景[chatdev]的分层数据集RIOH和WCEI。MAS applications are emerging across various industries. For example, ChatDev [3] simulates a technology company to develop code, and Agent Hospital [4] simulates a fully AI-driven hospital to assist patients. In these applications, agents perform specific roles and collaborate to accomplish tasks. However, these systems lack a layered information management framework. This means that sensitive information from higher-level decision-makers, such as company executives or hospital administrators, may inadvertently leak through lower-level agents. 因此构建符合实际意义的数据集是一个至关重要的点，我们的实验同样能证明agentsafe能在不同领域中都能起到有效的防御。
-
-
-
-
+Authors
 
