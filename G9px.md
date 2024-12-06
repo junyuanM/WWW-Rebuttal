@@ -110,7 +110,6 @@ $$
 
 The above is the computational overhead of the Agentsafe architecture. Next, we will calculate the computational overhead reduction brought by Agentsafe.
 
----
 
 First, the amount of irrelevant or harmful information that failed to enter the memory in round $t$ is $\left | I \right | - \left | I^{\prime\prime} \right |$. This part is stored in the junk memory and will not participate in the subsequent agent task execution process. Therefore, the cost saved is:
 
