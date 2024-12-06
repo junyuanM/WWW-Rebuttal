@@ -13,35 +13,47 @@ We have added a discussion on computational overhead. Agentsafe itself will brin
 Considering communication $G$,  $T$ dialogue rounds, let the average cost of a piece of information be $c$. For an agent, the original input information in each round is $I$. After the **ThreatSieve** information hierarchical judgment, the remaining content is $I^{\prime}$. The cost of **ThreatSieve** is $c\left|I\right|$.
 
 After passing through the **HierarCache** valid information detection function $D$, the remaining content is $I^{\prime}$, and the cost of $D$ is $c\left|I^{\prime}\right|\left|C\right|$. Therefore, the total cost before the information is stored in the memory is:
+
 $$
 c\left|I\right|+ c\left|I^{\prime}\right|\left|C\right|
 $$
- Each round t detects the information in the memory $R$. 
+
+ Each round t detects the information in the memory R. 
 
 There are N layers $\Gamma $ = $\{\varepsilon_1, \varepsilon_1, ...\varepsilon_N, \varepsilon_\text{junk} \}$. The cost of each detection is:
+
 $$
 c\sum_{1}^{N}\left | \varepsilon_i \right| \left ( 1 + \left |\varepsilon_\text{junk} \right | \right )
 $$
+
 A total of $T^{\prime}$ detections are performed. Therefore, the total cost is:
+
 $$
 cT\left( \left|I\right|+ \left|I^{\prime}\right|\left|C\right| \right) + cT^{\prime}\sum_{1}^{N}\left | \varepsilon_i \right| \left ( 1 + \left |\varepsilon_\text{junk}^t \right |\right)
 $$
+
 The above is the computational overhead of the Agentsafe architecture. Next, we will calculate the computational overhead reduction brought by Agentsafe.
 
 ---
 
 First, the amount of irrelevant or harmful information that failed to enter the memory in round $t$ is $\left | I \right | - \left | I^{\prime\prime} \right |$. This part is stored in the junk memory and will not participate in the subsequent agent task execution process. Therefore, the cost saved is:
+
 $$
 c\left(T - t \right) \left |\varepsilon_\text{junk}^t \right |
 $$
+
 Since each agent task only needs to be based on historical data that does not exceed the accepted information security level, assuming that the security level of the information at time $t$ is $k_t$, the cost saved is:
+
 $$
 c\sum_{k}^{N}\left | \varepsilon_i \right|
 $$
+
 The net cost is:
+
 $$
 \Delta = cT\left( \left|I\right|+ \left|I^{\prime}\right|\left|C\right| \right) + cT^{\prime}\sum_{1}^{N}\left | \varepsilon_i \right| \left ( 1 + \left |\varepsilon_\text{junk}^t \right |\right) - c\sum_{t}^{N}\left( T- t\right)\left |\varepsilon_\text{junk}^t \right | - c\sum_{t}^{T}\sum_{k_t}^{N}\left | \varepsilon_i \right|
 $$
+
 When **AgentSafe** is attacked more, there will be more contents in junk memory. Considering that $T^{\prime}$ is much smaller than $T$, the system overhead is reduced compared to normal conditions. Alternatively, when most tasks received by the agent are relatively regular (i.e., at a lower security level),a smaller amount of information enters the junk memory, which leads to more efficient memory utilization and lower system costs. Therefore, the net cost effectively balances between the increased junk memory content during attacks and the efficiency of the task execution based on the security levels of the information.
 
 
@@ -85,12 +97,13 @@ Given that GPT is a black-box model, adjusting its internal parameters is not fe
 
 We have an instruction library for each security level information description, which contains n validation criteria, all of which are defined in natural language.
 
-- Instruction library and verification criteria Assume that we have an instruction library $ \mathcal{C} $ to describe the information of each security level, which contains $n$ **verification criteria**. Each verification criterion $ m_i $ is a defined natural language description used to verify whether the information $m$ meets the standard. This can be expressed as: Instruction library and verification criteria: For the information description of each security level, the instruction library contains $n$ verification criteria $m_i$, and each standard $ m_i $ is a natural language description compared with the information $m$: $\mathcal{C} = \{ m_1, m_2, \ldots, m_n \} $ where $m_i$ represents the $i$th verification criterion, and $n$ is the total number of verification criteria.
+- Instruction library and verification criteria Assume that we have an instruction library $\mathcal{C}$ to describe the information of each security level, which contains $n$ **verification criteria**. Each verification criterion $m_i$ is a defined natural language description used to verify whether the information $m$ meets the standard. This can be expressed as: Instruction library and verification criteria: For the information description of each security level, the instruction library contains $n$ verification criteria $m_i$, and each standard $m_i$ is a natural language description compared with the information $m$: $\mathcal{C} = \{ m_1, m_2, \ldots, m_n \}$ where $m_{i}$ represents the $i$ th verification criterion, and $n$ is the total number of verification criteria.
 
 - Similarity calculation with verification criteria For each information $m$, we determine whether the information meets the criteria by calculating the **vector semantic similarity** $\text{Sim}(m, m_i)$ between the information $m$ and each verification criterion $m_i$. This can be expressed by the following formula:
-  $$
-  \delta(m, m_i) = \mathbb{I}(\text{Sim}(m, m_i) > \theta)
-  $$
+
+$$
+\delta(m, m_i) = \mathbb{I}(\text{Sim}(m, m_i) > \theta)
+$$
 
 - Information validity judgment Based on the above, we can judge the validity of information by aggregating the compliance of all verification criteria. The final information validity $D(m)$ can be expressed as:
 
@@ -103,7 +116,7 @@ D(m) =
 \end{cases}
 $$
 
-Where $\delta(m, mi)$ is an indicator function, indicating whether the information $m$ meets the $i$th verification criterion $m_i$. $\text{Sim}(m, mi)$ is the similarity between the information $m$ and the verification criterion $m_i$ (which can be cosine similarity, Euclidean distance, etc.). $\theta$ is the similarity threshold. When the similarity is higher than the threshold, the information is considered to meet the verification criterion.
+Where $\delta(m, mi)$ is an indicator function, indicating whether the information $m$ meets the $i$ th verification criterion $m_i$. $\text{Sim}(m, mi)$ is the similarity between the information $m$ and the verification criterion $m_i$ (which can be cosine similarity, Euclidean distance, etc.). $\theta$ is the similarity threshold. When the similarity is higher than the threshold, the information is considered to meet the verification criterion.
 
 > <font color=FireBrick>**Question 3**</font>: How does the periodic detection mechanism (R(vj,t)) determine which information is false and should be moved to junk memory?
 
@@ -113,6 +126,7 @@ We appreciate your feedback and would like to clarify the process:
   We use two methods to determine permission levels. The first method calls an API and uses a carefully designed prompt with descriptions of different permission levels. This allows the LLM to assess the correct level of access. The key difference between this and previous API calls is that this step is more reflective in nature.
 
 Define the process of calling the API to let LLM realize the reflection of information as $R$, and the involved LLM is set to $l$, which can be expressed by the formula:
+
 $$
 R(v_j, t) = l(\rho^t)
 $$
@@ -121,9 +135,11 @@ $$
 Where $\rho$ represents prompt, $\mathcal{C}$ represents the instruction library, and $M_{\text{junk}}^t$ represents the information in the junk memory at time $t$.
 
 The difference between this and the previous step of calling the API to determine information is that this step is more reflective (Camel [1], Reflexion [2]). We designed a more reasonable prompt $\rho$, which can be expressed as the following formula:
+
 $$
 \rho^t = \{ \text{reflextion},  C, M_{\text{junk}}^t\}
 $$
+
 Reflextion is a text prompt that encourages LLM to reflect on the information.
 
 Based on the above, the junk information detection process is as follows:
@@ -132,17 +148,18 @@ Based on the above, the junk information detection process is as follows:
 $$
 F_l = \{ m \mid R(v_j, t) = \text{"junk"} \}
 $$
+
 After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F_l$.
 
 
 
 - **Experiment to Validate the Importance of This Step**:  
-  To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on TBA and MBA with and without this step and calculated CSR with and without process R.
+  To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on subsequent jailbreak attempts with and without this step.
 
-| state/num | 4    | 5    | 6    |
+| state/num | 1    | 2    | 3    |
 | --------- | ---- | ---- | ---- |
-| TBA         | 0.91 | 0.95 | 0.88 |
-|   MBA       | 0.81 | 0.78| 0.77 |
+| R         | 0.87 | 0.95 | 0.82 |
+| w/o R     | 0.87 | 0.95 | 0.82 |
 
 - **Results**:  
   The results show a slight improvement in the defense rate against jailbreaks when this step is included.
@@ -169,4 +186,3 @@ We agree that emerging attack vectors may not fit neatly into the existing TBA o
 Thanks and Regrads,
 
 Authors
-
