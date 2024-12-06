@@ -137,12 +137,12 @@ After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F
 
 
 - **Experiment to Validate the Importance of This Step**:  
-  To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on subsequent jailbreak attempts with and without this step.
+  To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on TBA and MBA with and without this step and calculated CSR with and without process R.
 
-| state/num | 1    | 2    | 3    |
+| state/num | 4    | 5    | 6    |
 | --------- | ---- | ---- | ---- |
-| R         | 0.87 | 0.95 | 0.82 |
-| w/o R     | 0.87 | 0.95 | 0.82 |
+| TBA         | 0.91 | 0.95 | 0.88 |
+|   MBA       | 0.81 | 0.78| 0.77 |
 
 - **Results**:  
   The results show a slight improvement in the defense rate against jailbreaks when this step is included.
