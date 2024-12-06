@@ -105,7 +105,7 @@ Where $\delta(m, mi)$ is an indicator function, indicating whether the informati
 We appreciate your feedback and would like to clarify the process:
 
 - **Method for Permission Level Judgment**:  
-  We use two methods to determine permission levels. The first method calls an API and uses a carefully designed prompt with descriptions of different permission levels. This allows the LLM to assess the correct level of access. The key difference between this and previous API calls is that this step is more reflective in nature.
+We calls an API and uses a carefully designed prompt with descriptions of different permission levels. This allows the LLM to assess the correct level of access. The key difference between this and previous API calls is that this step is more reflective in nature.
 
 Define the process of calling the API to let LLM realize the reflection of information as $R$, and the involved LLM is set to $l$, which can be expressed by the formula:
 
