@@ -146,7 +146,7 @@ We have added more details in the methodology, just as in W3, and we have put th
 
 - Research on multi-agent systems is still in its early stages. Experiments are generally carried out under the assumption that identity substitution does not occur; each agent assumes a predefined role, and the communication between agents follows a designed protocol.
 
-- Since agents process natural language through LLMs, even if the target agent is explicitly informed via a prompt that the other party is a fake identity, there remains a risk of misjudgment during task processing. This can be attributed to the positive feedback that erroneous tokens corresponding to fake information can generate within the LLM, leading to misinterpretations.
+- Since agents process natural language through LLMs, even if the target agent is explicitly informed via a prompt that the other party is a fake identity, there remains a risk of misjudgment during task processing. This can be attributed to the positive feedback that erroneous tokens corresponding to fake information can generate within the LLM, leading to misinterpretations[10, 11].
 
 - To mitigate this risk, in **AgentSafe**, identity is verified by extracting information about the source agent through an API call and a specific program. If an incorrect identity is detected, the associated information is immediately treated as "junk information," thus preventing successful attacks that arise from the inherent non-determinism in LLM task processing.
 
@@ -209,6 +209,10 @@ We appreciate your feedback and would like to clarify the process:
 [8] ChatDev: Communicative Agents for Software Development
 
 [9] Agent Hospital: A Simulacrum of Hospital with Evolvable Medical Agents
+
+[10] Explaining Misinformation Detection Using Large Language Models
+
+[11] Exploring the Deceptive Power of LLM-Generated Fake News: A Study of Real-World Detection Challenges
 
 Warm regards,
 
