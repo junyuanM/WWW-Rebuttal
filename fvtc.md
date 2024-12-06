@@ -158,8 +158,8 @@ After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F
 
 | state/num | 1    | 2    | 3    |
 | --------- | ---- | ---- | ---- |
-| R         | 0.87 | 0.95 | 0.82 |
-| w/o R     | 0.87 | 0.95 | 0.82 |
+| R         | 0.91 | 0.95 | 0.88 |
+| w/o R     | 0.81 | 0.78 | 0.77 |
 
 - **Results**:  
   The results show a slight improvement in the defense rate against jailbreaks when this step is included.
