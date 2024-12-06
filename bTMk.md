@@ -91,6 +91,7 @@ C(v_i, v_j, t) =
 \text{Invalid}, & \text{otherwise}
 \end{cases}
 $$
+
 where `Iv(vi, vj) = 1` indicates that the identity of `vi` has been verified. This ensures that unauthorized or unverified communications are filtered out before reaching the target agent.
 
 [1]MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework
