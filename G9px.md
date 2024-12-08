@@ -14,7 +14,7 @@ We believe that MAS and the Web have a clear correlation, because each node in M
 To make it easier for readers to understand, we have included specific details in the article including:
 
 1. For a clearer formulation, we have adopted a more precise formal expression and included a notation table in the appendix. For example, the content in W5, as well as additional formal expressions regarding the validation function and periodic detection mechanism in HierarCache.
-### Detection Function D(m)
+** Detection Function D(m) **
 
 - **Instruction library and verification criteria**: Assume that we have an instruction library $\mathcal{C}$ to describe the information of each security level, which contains $n$ **verification criteria**. Each verification criterion $m_i$ is a defined natural language description used to verify whether the information $m$ meets the standard. This can be expressed as: $\mathcal{C} = \{ m_1, m_2, \ldots, m_n \}$ where $m_{i}$ represents the $i$ th verification criterion, and $n$ is the total number of verification criteria.
 
@@ -24,8 +24,7 @@ $$
 \delta(m, m_i) = \mathbb{I}(\text{Sim}(m, m_i) > \theta)
 $$
 
-- **Information validity judgment**: We can judge the validity of information by aggregating the compliance of all verification criteria. If all verification criteria are validated, then $ D(m) = 1 $
-D(m)=1 The final information validity $D(m)$ can be expressed as:
+- **Information validity judgment**: We can judge the validity of information by aggregating the compliance of all verification criteria. If all verification criteria are validated, then $D(m) = 1 $. The final information validity $D(m)$ can be expressed as:
 
 
 $$
@@ -36,7 +35,7 @@ D(m) =
 \end{cases}
 $$
 
-### Periodic Detection Mechanism R(vj,t) 
+** Periodic Detection Mechanism R(vj,t) **
 
 - **Method for Permission Level Judgment**:  
   We call an API and use a carefully designed prompt with descriptions of different permission levels. This allows the LLM to assess the correct level of access. The key difference between this and previous API calls is that this step is more reflective in nature.
