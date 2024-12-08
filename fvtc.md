@@ -73,21 +73,21 @@ Of course, we believe that as relevant research progresses, MAS will indeed face
 
 > <font color=FireBrick>**Question 1**</font>: How does AgentSafe handle dynamic changes in agent permissions or security levels during runtime?
 
-Given that GPT is a black-box model, adjusting its internal parameters is not feasible. As a result, the security of the model is inherently determined by its structure. This makes it particularly difficult to consider dynamic changes in LLMs.To address this challenge, we have shifted our focus to exploring different security scenarios. We believe this approach provides a more practical and reasonable solution.
+Given that GPT is a black-box model, adjusting its internal parameters is not feasible. As a result, the security of the model is inherently determined by its structure. This makes it particularly difficult to consider dynamic changes in LLMs.To address this challenge, we have shifted our focus to **exploring different security scenarios**. We believe this approach provides a more practical and reasonable solution.
 
 > <font color=FireBrick>**Question 2**</font>: What are the specific criteria used in the detection function D(m) to assess the validity of messages?
 
-We have an instruction library for each security level information description, which contains n validation criteria, all of which are defined in natural language.
+**Detection Function D(m)**
 
-- Instruction library and verification criteria Assume that we have an instruction library $\mathcal{C}$ to describe the information of each security level, which contains $n$ **verification criteria**. Each verification criterion $m_i$ is a defined natural language description used to verify whether the information $m$ meets the standard. This can be expressed as: Instruction library and verification criteria: For the information description of each security level, the instruction library contains $n$ verification criteria $m_i$, and each standard $m_i$ is a natural language description compared with the information $m$: $\mathcal{C} = \{ m_1, m_2, \ldots, m_n \}$ where $m_{i}$ represents the $i$ th verification criterion, and $n$ is the total number of verification criteria.
+- **Instruction library and verification criteria**: Assume that we have an instruction library $\mathcal{C}$ to describe the information of each security level, which contains $n$ **verification criteria**. Each verification criterion $m_i$ is a defined natural language description used to verify whether the information $m$ meets the standard. This can be expressed as: $\mathcal{C} = \{ m_1, m_2, \ldots, m_n \}$ where $m_{i}$ represents the $i$ th verification criterion, and $n$ is the total number of verification criteria.
 
-- Similarity calculation with verification criteria For each information $m$, we determine whether the information meets the criteria by calculating the **vector semantic similarity** $\text{Sim}(m, m_i)$ between the information $m$ and each verification criterion $m_i$. This can be expressed by the following formula:
+- **Similarity calculation with verification criteria**: For each information $m$, we determine whether the information meets the criteria by calculating the **vector semantic similarity** $\text{Sim}(m, m_i)$ between the information $m$ and each verification criterion $m_i$, which can be cosine similarity, Euclidean distance, etc. This can be expressed by the following formula:
 
 $$
 \delta(m, m_i) = \mathbb{I}(\text{Sim}(m, m_i) > \theta)
 $$
 
-- Information validity judgment Based on the above, we can judge the validity of information by aggregating the compliance of all verification criteria. The final information validity $D(m)$ can be expressed as:
+- **Information validity judgment**: We can judge the validity of information by aggregating the compliance of all verification criteria. If all verification criteria are validated, then $D(m) = 1 $. The final information validity $D(m)$ can be expressed as:
 
 
 $$
@@ -98,7 +98,6 @@ D(m) =
 \end{cases}
 $$
 
-Where $\delta(m, mi)$ is an indicator function, indicating whether the information $m$ meets the $i$ th verification criterion $m_i$. $\text{Sim}(m, mi)$ is the similarity between the information $m$ and the verification criterion $m_i$ (which can be cosine similarity, Euclidean distance, etc.). $\theta$ is the similarity threshold. When the similarity is higher than the threshold, the information is considered to meet the verification criterion.
 
 > <font color=FireBrick>**Question 3**</font>: How does the periodic detection mechanism (R(vj,t)) determine which information is false and should be moved to junk memory?
 
