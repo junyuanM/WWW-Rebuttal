@@ -137,7 +137,7 @@ After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F
 - **Experiment to Validate the Importance of This Step**:  
   To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on TBA and MBA with and without this step.
 
-| state/num | 1    | 2    | 3    |
+| state/num | 3    | 4    | 5    |
 | --------- | ---- | ---- | ---- |
 | R         | 0.91 | 0.95 | 0.88 |
 | w/o R     | 0.81 | 0.78 | 0.77 |
