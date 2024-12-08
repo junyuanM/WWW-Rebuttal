@@ -4,10 +4,10 @@ Thank you for your thoughtful and constructive feedback. We greatly appreciate t
 
 > <font color=FireBrick>**Weakness 1**</font>: The relevance of LLMs and MAS to Web security and privacy is unclear to me.
 
-We believe that MAS and the Web have a clear correlation, because each node in MAS can be understood as an entity in the Web. The security challenges in multi-agent systems are similar to those in Web systems, but with the addition of collaboration and information sharing between agents. The introduction of LLM may change the form of security threats.
+We believe that MAS and the Web have a clear correlation, because each node in MAS can be understood as an entity in the Web. The security challenges in multi-agent systems are similar to those in Web systems. Unlike web systems, the introduction of LLMs in MAS may change the form of security threats.
 
 - **LLMs in Web Security and Privacy**: LLMs can analyze large amounts of data to detect vulnerabilities, identify threats, and provide real-time responses, making them valuable tools for enhancing Web security.
-- **MAS in Web Security and Privacy**: In a Multi-Agent System, multiple agents (including LLMs) can collaborate to model attack scenarios, detect adversarial behavior, and coordinate defense mechanisms, offering new ways to manage security and privacy in decentralized Web environments.
+- **MAS in Web Security and Privacy**: In a Multi-Agent System, multiple agents can collaborate to model attack scenarios, detect adversarial behavior, and coordinate defense mechanisms, offering new ways to manage security and privacy in decentralized Web environments.
 
 > <font color=FireBrick>**Weakness 2**</font>: Authors omitted any discussions about the details of their system with regards to implementation. 
 
@@ -16,17 +16,16 @@ To make it easier for readers to understand, we have included specific details i
 1. For a clearer formulation, we have adopted a more precise formal expression and included a notation table in the appendix. For example, the content in W5, as well as additional formal expressions regarding the validation function and periodic detection mechanism in HierarCache.
 ### Detection Function D(m)
 
-We have an instruction library for each security level information description, which contains n validation criteria, all of which are defined in natural language.
+- **Instruction library and verification criteria**: Assume that we have an instruction library $\mathcal{C}$ to describe the information of each security level, which contains $n$ **verification criteria**. Each verification criterion $m_i$ is a defined natural language description used to verify whether the information $m$ meets the standard. This can be expressed as: $\mathcal{C} = \{ m_1, m_2, \ldots, m_n \}$ where $m_{i}$ represents the $i$ th verification criterion, and $n$ is the total number of verification criteria.
 
-- Instruction library and verification criteria Assume that we have an instruction library $\mathcal{C}$ to describe the information of each security level, which contains $n$ **verification criteria**. Each verification criterion $m_i$ is a defined natural language description used to verify whether the information $m$ meets the standard. This can be expressed as: Instruction library and verification criteria: For the information description of each security level, the instruction library contains $n$ verification criteria $m_i$, and each standard $m_i$ is a natural language description compared with the information $m$: $\mathcal{C} = \{ m_1, m_2, \ldots, m_n \}$ where $m_{i}$ represents the $i$ th verification criterion, and $n$ is the total number of verification criteria.
-
-- Similarity calculation with verification criteria For each information $m$, we determine whether the information meets the criteria by calculating the **vector semantic similarity** $\text{Sim}(m, m_i)$ between the information $m$ and each verification criterion $m_i$. This can be expressed by the following formula:
+- **Similarity calculation with verification criteria**: For each information $m$, we determine whether the information meets the criteria by calculating the **vector semantic similarity** $\text{Sim}(m, m_i)$ between the information $m$ and each verification criterion $m_i$, which can be cosine similarity, Euclidean distance, etc. This can be expressed by the following formula:
 
 $$
 \delta(m, m_i) = \mathbb{I}(\text{Sim}(m, m_i) > \theta)
 $$
 
-- Information validity judgment Based on the above, we can judge the validity of information by aggregating the compliance of all verification criteria. The final information validity $D(m)$ can be expressed as:
+- **Information validity judgment**: We can judge the validity of information by aggregating the compliance of all verification criteria. If all verification criteria are validated, then $ D(m) = 1 $
+D(m)=1 The final information validity $D(m)$ can be expressed as:
 
 
 $$
@@ -36,8 +35,6 @@ D(m) =
 0 &amp; \text{if } \sum_{i=1}^{n} \delta(m, m_i) &lt; n
 \end{cases}
 $$
-
-Where $\delta(m, mi)$ is an indicator function, indicating whether the information $m$ meets the $i$ th verification criterion $m_i$. $\text{Sim}(m, mi)$ is the similarity between the information $m$ and the verification criterion $m_i$ (which can be cosine similarity, Euclidean distance, etc.). $\theta$ is the similarity threshold. When the similarity is higher than the threshold, the information is considered to meet the verification criterion.
 
 ### Periodic Detection Mechanism R(vj,t) 
 
@@ -73,7 +70,7 @@ After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F
 - **Experiment to Validate the Importance of This Step**:  
   To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on TBA and MBA with and without this step.
 
-| state/num | 1    | 2    | 3    |
+| state/num | 3    | 4    | 5    |
 | --------- | ---- | ---- | ---- |
 | R         | 0.91 | 0.95 | 0.88 |
 | w/o R     | 0.81 | 0.78 | 0.77 |
