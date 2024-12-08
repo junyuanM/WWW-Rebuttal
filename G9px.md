@@ -56,7 +56,7 @@ Where $\rho$ represents prompt, $\mathcal{C}$ represents the instruction library
 The difference between this and the previous step of calling the API to determine information is that this step is more reflective (Camel [1], Reflexion [2]). We designed a more reasonable prompt $\rho$, which can be expressed as the following formula:
 
 $$
-\rho^t = \{ \text{reflextion},  C, M_{\text{junk}}^t\}
+\rho^t = \\{ \text{reflextion},  C, M_{\text{junk}}^t\\}
 $$
 
 Reflextion is a text prompt that encourages LLM to reflect on the information.
@@ -65,7 +65,7 @@ Based on the above, the junk information detection process is as follows:
 
 
 $$
-F_l = \{ m \mid R(v_j, t) = \text{"junk"} \}
+F_l = \\{ m \mid R(v_j, t) = \text{"junk"} \\}
 $$
 
 After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F_l$.
