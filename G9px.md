@@ -14,7 +14,8 @@ We believe that MAS and the Web have a clear correlation, because each node in M
 To make it easier for readers to understand, we have included specific details in the article including:
 
 1. For a clearer formulation, we have adopted a more precise formal expression and included a notation table in the appendix. For example, the content in W5, as well as additional formal expressions regarding the validation function and periodic detection mechanism in HierarCache.
-** Detection Function D(m) **
+   
+**Detection Function D(m)**
 
 - **Instruction library and verification criteria**: Assume that we have an instruction library $\mathcal{C}$ to describe the information of each security level, which contains $n$ **verification criteria**. Each verification criterion $m_i$ is a defined natural language description used to verify whether the information $m$ meets the standard. This can be expressed as: $\mathcal{C} = \{ m_1, m_2, \ldots, m_n \}$ where $m_{i}$ represents the $i$ th verification criterion, and $n$ is the total number of verification criteria.
 
@@ -35,11 +36,9 @@ D(m) =
 \end{cases}
 $$
 
-** Periodic Detection Mechanism R(vj,t) **
+**Periodic Detection Mechanism R(vj,t)**
 
-- **Method for Permission Level Judgment**:  
-  We call an API and use a carefully designed prompt with descriptions of different permission levels. This allows the LLM to assess the correct level of access. The key difference between this and previous API calls is that this step is more reflective in nature.
-
+- **Method for Permission Level Judgment**: We call an API and use a carefully designed prompt with descriptions of different permission levels. This allows the LLM to assess the correct level of access.
 Define the process of calling the API to let LLM realize the reflection of information as $R$, and the involved LLM is set to $l$, which can be expressed by the formula:
 
 $$
@@ -49,16 +48,15 @@ $$
 
 Where $\rho$ represents prompt, $\mathcal{C}$ represents the instruction library, and $M_{\text{junk}}^t$ represents the information in the junk memory at time $t$.
 
-The difference between this and the previous step of calling the API to determine information is that this step is more reflective (Camel [1], Reflexion [2]). We designed a more reasonable prompt $\rho$, which can be expressed as the following formula:
+The difference between this and the previous step of calling the API to determine information is that this step is more reflective (Camel [6], Reflexion [7]). We designed a more reasonable prompt $\rho$, which can be expressed as the following formula:
 
 $$
 \rho^t = \\{ \text{reflextion},  C, M_{\text{junk}}^t\\}
 $$
 
-Reflextion is a text prompt that encourages LLM to reflect on the information.
+where reflextion is a text prompt that encourages LLM to reflect on the information.
 
 Based on the above, the junk information detection process is as follows:
-
 
 $$
 F_l = \\{ m \mid R(v_j, t) = \text{"junk"} \\}
@@ -66,17 +64,14 @@ $$
 
 After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F_l$.
 
-- **Experiment to Validate the Importance of This Step**:  
-  To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on TBA and MBA with and without this step.
+- **Experiment to Validate the Importance of This Step**: To test the importance of this method, we conducted additional experiments under MBA attacks. After  $n & rounds of interaction, we compared the impact on TBA and MBA with and without this step by calculating CSR.
 
-| state/num | 3    | 4    | 5    |
-| --------- | ---- | ---- | ---- |
-| R         | 0.91 | 0.95 | 0.88 |
-| w/o R     | 0.81 | 0.78 | 0.77 |
+| state/num | 3    | 4    | 5    | 6    | 7    | 8    |
+| --------- | ---- | ---- | ---- | ---- | ---- | ---- |
+| R         | 0.91 | 0.95 | 0.88 | 0.91 | 0.94 | 0.90 |
+| w/o R     | 0.81 | 0.78 | 0.77 | 0.79 | 0.83 | 0.85 |
 
-- **Results**:  
-  The results show a slight improvement in the defense rate against jailbreaks when this step is included.
-
+- **Results**: The results **show an improvement in the defense rate against jailbreaks** when this step is included.
 
 2. Additionally, we have provided a theoretical derivation of the computational overhead to demonstrate that the overhead of Agentsafe has an overall favorable impact on performance.
 
@@ -90,7 +85,7 @@ $$
 c\left|I\right|+ c\left|I^{\prime}\right|\left|C\right|
 $$
 
- Each round t detects the information in the memory R. 
+Every interval of time T^{prime}, R(vj,t) detects the information in the memory. 
 
 There are N layers $\Gamma $ = $\{\varepsilon_1, \varepsilon_1, ...\varepsilon_N, \varepsilon_\text{junk} \}$. The cost of each detection is:
 
@@ -125,24 +120,23 @@ $$
 \Delta = cT\left( \left|I\right|+ \left|I^{\prime}\right|\left|C\right| \right) + cT^{\prime}\sum_{1}^{N}\left | \varepsilon_i \right| \left ( 1 + \left |\varepsilon_\text{junk}^t \right |\right) - c\sum_{t}^{N}\left( T- t\right)\left |\varepsilon_\text{junk}^t \right | - c\sum_{t}^{T}\sum_{k_t}^{N}\left | \varepsilon_i \right|
 $$
 
-When **AgentSafe** is attacked more, there will be more contents in junk memory. Considering that $T^{\prime}$ is much smaller than $T$, the system overhead is reduced compared to normal conditions. Alternatively, when most tasks received by the agent are relatively regular (i.e., at a lower security level),a smaller amount of information enters the junk memory, which leads to more efficient memory utilization and lower system costs. Therefore, the net cost effectively balances between the increased junk memory content during attacks and the efficiency of the task execution based on the security levels of the information.
+When **AgentSafe** is attacked more frequently, more data will accumulate in the junk memory. Considering that $T^{\prime}$ is much smaller than $T$, the system overhead is reduced compared to normal conditions. Alternatively, when most tasks received by the agent are relatively regular (i.e., at a lower security level), a smaller amount of information enters the junk memory, which leads to more efficient memory utilization and lower system costs. Therefore, the net cost effectively balances between the increased junk memory content during attacks and the efficiency of the task execution based on the security levels of the information.
 
 > <font color=FireBrick>**Weakness 3**</font>: I didn't find the value in most of the formal definitions in the paper.
 
 We found it **necessary to give formula definitions** in the introduction. These concepts are common in the graph(LTH [1], Snowflake [2], GPTSwarm [3], OpenGraph [4], DHGR [5]).We believe that the expression of formulas is more convenient for subsequent work and helps readers follow our research. At the same time, we agree that the formulas in the introduction are too bloated. We have deleted the formulas, but the formulas in the main text are meaningful.
 
-
 > <font color=FireBrick>**Weakness 4**</font>: The space in the paper could have been used for topics such as details of the system, or the discussion of system components that is currently in the Appendix
 
-We have added more details in the methodology, just as in W3, and we have put the extra details in the appendix.
+We have added more details in the methodology, just as in W3, and we have put the extra details in the appendix, such as notation table.
 
 > <font color=FireBrick>**Weakness 5**</font>: Is ThreatSieve simply authenticating the communication channel between the agents? What does its cryptographic verification and authority validation look in practice? Is it based on an existing protocol? 
 
-- The conversations between agents are conducted in natural language, while the content of the communication adheres to a more structured format, such as the JSON file specification.
+- The conversations between agents are conducted in natural language, while the content of the communication adheres to a more **structured format**, such as the JSON file specification.
 
-- Research on multi-agent systems is still in its early stages. Experiments are generally carried out under the assumption that identity substitution does not occur; each agent assumes a predefined role, and the communication between agents follows a designed protocol.
+- Research on multi-agent systems is still in its early stages. Experiments are generally carried out under the assumption that identity substitution does not occur, with each agent assuming **a predefined role**.
 
-- Since agents process natural language through LLMs, even if the target agent is explicitly informed via a prompt that the other party is a fake identity, there remains a risk of misjudgment during task processing. This can be attributed to the positive feedback that erroneous tokens corresponding to fake information can generate within the LLM, leading to misinterpretations[10, 11].
+- Since agents process natural language through LLMs, even if the target agent is explicitly informed via a prompt that the other party is a fake identity, **there remains a risk of misjudgment during task processing**. This can be attributed to the positive feedback that erroneous tokens corresponding to fake information can generate within the LLM, leading to misinterpretations[10, 11].
 
 - To mitigate this risk, in **AgentSafe**, identity is verified by extracting information about the source agent through an API call and a specific program. If an incorrect identity is detected, the associated information is immediately treated as "junk information," thus preventing successful attacks that arise from the inherent non-determinism in LLM task processing.
 
@@ -158,32 +152,27 @@ Iv(v_i, v_j) = \begin{cases}
 $$
 
   Among them, $\prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C)$ is the identification process, $M(ID_i, \vartheta_k, P^{\prime}, C) = 1$ means that the identity information $\vartheta_k$ is not a replaced identity. 
-  When $\prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 1$, it means that all identities are not forged identities. If there is an identity authentication failure of i, then $\prod_{k=1}^{n} M(ID_i, \vartheta_k, 
-  P^{\prime}, C) = 0$, that is, $Iv(v_i, v_j) = 0$.
+  When $\prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 1$, it means that all identities are not forged identities. If there is an identity authentication failure of i, then $\prod_{k=1}^{n} M(ID_i, \vartheta_k, P^{\prime}, C) = 0$, that is, $Iv(v_i, v_j) = 0$.
 
-- If each agent is placed on a different server in the future, then the first thing to do for confirming the agent information is to confirm the information between servers, and this is something that needs to be considered at a lower level than MAS.
+- If each agent is placed on a different server in the future, the first step in confirming agent information would involve verifying the communication between servers. **This aspect, however, is beyond the scope of current MAS research**.
 
 > <font color=FireBrick>**Weakness 6**</font>: How does Agentsafe characterize junk memory? How does Agentsafe identify this in practice and how are these terms defined in different contexts?
 
 We appreciate your feedback and would like to clarify the process:
 
-1. **Definition of Junk Information**:  
-   Junk information refers to harmful content that is irrelevant to the agent’s tasks, including misleading, erroneous, biased, or contradictory information.
+- **Definition of Junk Information**: Junk information refers to harmful content that is irrelevant to the agent’s tasks, including misleading, erroneous, biased, or contradictory information.
 
-2. **Before Information Enters Memory**:  
-   We use two methods to assess information before it is stored in memory:
+- **Before Information Enters Memory**:  We use two methods to assess information before it is stored in memory:
+* **API Call**: A designed prompt, which includes descriptions of different permission levels, helps the LLM determine the correct level of access.
+* **Vector Comparison**: We compare the information against predefined permission levels using vector mappings.
 
-   * **API Call**: A designed prompt, which includes descriptions of different permission levels, helps the LLM determine the correct level of access.
-   * **Vector Comparison**: We compare the information against predefined permission levels using vector mappings.
-
-3. **For Information Stored in Memory**:  
-   For stored information, we ensure that each interaction is contextually designed for retrieval. Then, we apply the same method of using a prompt to assess the permission level. The main difference here is that this step is more reflective, considering the context of the information (see Camel [6], Reflexion [7]).
+- **For Information Stored in Memory**: For stored information, we ensure that each interaction is contextually designed for retrieval. Then, we apply the same method of using a prompt to assess the permission level. The main difference here is that this step is more reflective, considering the context of the information (see Camel [6], Reflexion [7]).
 
 > <font color=FireBrick>**Question 1**</font>: What is the effort involved in building Agentsafe and marking data and agent access hierarchy?
 
 - The focus of building agentsafe is the design of the overall architecture and experiments to ensure that each part can run well. We have enriched the expression of methodology in the article.
 
-- The construction of the dataset first determines the task. For example, the task of agentsafe includes basic information between agents and various attack statements. Then, like many articles in the existing LLM agent field [], the generation of the dataset is to first generate a large amount of information or questions through LLM, and then manually review to generate the dataset.
+- The construction of the dataset first determines the task. For example, the task of agentsafe includes basic information between agents and various attack statements. Then, like many articles in the existing LLM agent field[3, 9], the generation of the dataset is to first generate a large amount of information or questions through LLM, and then manually review to generate the dataset.
 
 - Regarding the construction of the agent access hierarchy, we built the hierarchical datasets RIOH and WCEI for mas in simulating human interaction[6] and company scenarios[7]. MAS applications are emerging across various industries. For example, ChatDev [3] simulates a technology company to develop code, and Agent Hospital[9] simulates a fully AI-driven hospital to assist patients. In these applications, agents perform specific roles and collaborate to accomplish tasks. However, these systems lack a layered information management framework. This means that sensitive information from higher-level decision-makers, such as company executives or hospital administrators, may inadvertently leak through lower-level agents. Therefore, constructing a dataset that is of practical significance is crucial. Our experiments also prove that AgentSafe can provide effective defense in different fields.
 
