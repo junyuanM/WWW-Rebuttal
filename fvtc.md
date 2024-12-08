@@ -101,10 +101,7 @@ $$
 
 > <font color=FireBrick>**Question 3**</font>: How does the periodic detection mechanism (R(vj,t)) determine which information is false and should be moved to junk memory?
 
-We appreciate your feedback and would like to clarify the process:
-
-- **Method for Permission Level Judgment**:  We call an API and use a carefully designed prompt with descriptions of different permission levels. This allows the LLM to assess the correct level of access. The key difference between this and previous API calls is that this step is more reflective in nature.
-
+- **Method for Permission Level Judgment**: We call an API and use a carefully designed prompt with descriptions of different permission levels. This allows the LLM to assess the correct level of access.
 Define the process of calling the API to let LLM realize the reflection of information as $R$, and the involved LLM is set to $l$, which can be expressed by the formula:
 
 $$
@@ -114,46 +111,37 @@ $$
 
 Where $\rho$ represents prompt, $\mathcal{C}$ represents the instruction library, and $M_{\text{junk}}^t$ represents the information in the junk memory at time $t$.
 
-The difference between this and the previous step of calling the API to determine information is that this step is more reflective (Camel [1], Reflexion [8]). We designed a more reasonable prompt $\rho$, which can be expressed as the following formula:
+The difference between this and the previous step of calling the API to determine information is that this step is more reflective (Camel [6], Reflexion [7]). We designed a more reasonable prompt $\rho$, which can be expressed as the following formula:
 
 $$
-\rho^t = \{ \text{reflextion},  C, M_{\text{junk}}^t\}
+\rho^t = \\{ \text{reflextion},  C, M_{\text{junk}}^t\\}
 $$
 
-Reflextion is a text prompt that encourages LLM to reflect on the information.
+where reflextion is a text prompt that encourages LLM to reflect on the information.
 
 Based on the above, the junk information detection process is as follows:
 
-
 $$
-F_l = \{ m \mid R(v_j, t) = \text{"junk"} \}
+F_l = \\{ m \mid R(v_j, t) = \text{"junk"} \\}
 $$
 
 After time t, update $\rho$, $\rho^{t+1} = \rho^{t} + F_l$ for all identified $F_l$.
 
+- **Experiment to Validate the Importance of This Step**: To test the importance of this method, we conducted additional experiments under MBA attacks. After  $n & rounds of interaction, we compared the impact on TBA and MBA with and without this step by calculating CSR.
 
+| state/num | 3    | 4    | 5    | 6    | 7    | 8    |
+| --------- | ---- | ---- | ---- | ---- | ---- | ---- |
+| R         | 0.91 | 0.95 | 0.88 | 0.91 | 0.94 | 0.90 |
+| w/o R     | 0.81 | 0.78 | 0.77 | 0.79 | 0.83 | 0.85 |
 
-- **Experiment to Validate the Importance of This Step**:  
-  To test the importance of this method, we conducted additional experiments under MBA attacks. After \( n \) rounds of interaction, we compared the impact on TBA and MBA with and without this step.
-
-| state/num | 3    | 4    | 5    |
-| --------- | ---- | ---- | ---- |
-| R         | 0.91 | 0.95 | 0.88 |
-| w/o R     | 0.81 | 0.78 | 0.77 |
-
-- **Results**:  
-  The results show a slight improvement in the defense rate against jailbreaks when this step is included.
-
-- **Future Work**:  
-  We are working to supplement these findings and will add the experiment results to the appendix. If there are any updates, we will include them in the discussion phase.
-  
+- **Results**: The results **show an improvement in the defense rate against jailbreaks** when this step is included.
 
 > <font color=FireBrick>**Question 4**</font>: How might AgentSafe be adapted or extended to handle emerging attack vectors that may not fit into the current TBA or MBA categories?
 
-We agree that emerging attack vectors may not fit neatly into the existing TBA or MBA categories. Here’s how we plan to adapt AgentSafe to handle these new threats:
+AgentSafe summarizes the attack methods in the current LLM-based MAS field. **The vast majority of these attacks can be classified into TBA and MBA[9]**. Therefore, our work is applicable to counter most attacks. However, there is a small subset of attacks that we have not considered, such as backdoor injection and prompt injection. Here’s how we plan to adapt AgentSafe to handle these threats:
 
 - **Dynamic Threat Detection and Adaptation**: We propose integrating machine learning capabilities into AgentSafe, enabling it to identify and respond to new attack patterns in real time. This would allow the system to adapt to novel attack types without requiring a complete overhaul.
-- **Expanding Attack Categories**: In addition to TBA and MBA, we plan to introduce hybrid attack categories to address more complex threats that combine elements of both topology and memory attacks. 
+- **Expanding Attack Categories**: In addition to TBA and MBA, we plan to improve the architecture by incorporating prompt engineering and LLM fine-tuning functionality.
 - **Collaborative Defense and Continuous Learning**: We also suggest enhancing collaboration among agents, allowing them to share information and improve threat detection through continuous learning. 
 
 ---
@@ -172,7 +160,9 @@ We agree that emerging attack vectors may not fit neatly into the existing TBA o
 
 [7] MetaGPT: Meta Programming For A Multi-Agent Collaborative Framwork
 
-[8]Reflexion: Language Agents with Verbal Reinforcement Learning
+[8] Reflexion: Language Agents with Verbal Reinforcement Learning
+
+[9] Psysafe: A comprehensive framework for psychological-based attack, defense, and evaluation of multi-agent system safety
 
 
 
