@@ -28,18 +28,30 @@ We sincerely appreciate the time and effort that the reviewers have put into eva
 
 > <font color=FireBrick>**Question 3**</font>: The network topology proposed by the authors appears overly simplistic and abstract, as reflected in the relationship diagram presented in the introduction and the methodology framework(Figure 1), which involves at most a system with three interacting agents. However, in their experiments for RQ3, the authors set up systems with up to 10 agents. What was the specific MAS configuration used in these experiments?
 
-As research on multi-agent systems (MAS) is still in its early stages, most high-citation papers involve fewer than 10 agents (cite). This is primarily due to two reasons:  
+From the perspective of traditional network research, it is indeed reasonable to consider networks as composed of a large number of nodes. Therefore, your point is valid. However, from the viewpoint of LLM-based Multi-Agent Systems (MAS), we would like to respectfully point out that:
 
-1. **Practical Requirements**: In existing MAS applications, fewer than 10 agents are typically sufficient to complete the desired tasks effectively.  
-2. **Token Consumption**: Increasing the number of agents significantly results in a sharp rise in token consumption, leading to high computational overhead.
+- In current mainstream LLM-based MAS research, the number of nodes typically considered is fewer than 10.  
+- Some influential works on task-solving MAS, such as:
+  - **Camel [1]**, which simulates user-AI interactions, involves only 3 agents: a task refiner, an AI Instructor, and an AI User.
+  - **ChatDev [2]**, used for code development, involves 5 agents: CEO, CTO, Reviewer, Programmer, and Tester.
+  - The experiments of **AutoGen [3]**, which supports automatic MAS structure generation based on tasks, also consider only 3-4 agents.
+  - Some other jobs can also be listed.(**BlockAgents [4]**, **AgentVerse [5]**, **AutoDefense [6]**, **MetaGPT[7]**)
 
-**Agent Connectivity and Topology**. In our experiments, the connectivity between agents is random, which includes various topologies such as chains, rings, and complete graphs. We hypothesize that our defense mechanism should perform consistently across different topologies, so we did not differentiate between them in our experiments. Instead, we used a random structure to represent the connections.
+Of course, we believe that as relevant research progresses, MAS will indeed face the problem of more nodes as you have considered in the future, and our work has laid a solid foundation for it. Our current work **focuses on exploring foundational mechanisms for agent safety** and does not yet address scalability in extreme cases. 
 
-**Impact of Topology on Defense Performance**. We address your concern about topology in a follow-up experiment, which will show that topology does not have a significant impact on defense performance.
+We have considered the structure and framework of MAS, including various topological and graph structures[1, 2], such as tree structures, ring structures, and others. We have provided a table to explain the results, and we found that under the **AgentSafe** framework, different MAS configurations can be effectively protected. Since our framework does not take into account other architectures, we focused on evaluating different topological structures. The table below shows the results for different topologies and their protection effectiveness:
 
-**Diversity in Agent Connectivity**. The diversity in agent connectivity accurately reflects the defense performance across different MAS architectures, such as Came [1]l and AutoGPT. The agents in our experiments use APIs like Llama, GPT-4, and others.
+| Topology/Num   | 4    | 5    | 6    |
+| -------------- | ---- | ---- | ---- |
+| Chain          | 0.73 | 0.78 | 0.76 |
+| Cycle          | 0.74 | 0.78 | 0.78 |
+| Complete Graph | 0.75 | 0.85 | 0.76 |
 
-In fact, the existing Chain and Complete Graph topologies are a realistic exploration of the security of the structures used in influential MAS research, such as Camel [1] and Multi-agent Debate [2]. The only difference lies in the system prompt used for the agents.
+### Key Findings:
+From the table, we observe that regardless of the number of agents in the MAS, **AgentSafe** provides **high defense** against **TBA** attacks. The framework successfully prevents harmful agents from accessing sensitive information and maintains performance integrity across various topologies.
+
+Agentsafe uses APIs that include the latest LLMs such as Llama 3.2, GPT-4, and others. For the parts of the architecture that involve prompts, examples have also been updated in the appendix.
+
 
 > <font color=FireBrick>**Question 4**</font>: The abstracts are quite lengthy (especially the section introducing the TBA and MBA), could the language be further optimized to further emphasize the core motivation and core contribution of the study?
 
