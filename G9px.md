@@ -81,46 +81,46 @@ Considering communication $G$,  $T$ dialogue rounds, let the average cost of a p
 
 After passing through the **HierarCache** valid information detection function $D$, the remaining content is $I^{\prime}$, and the cost of $D$ is $c\left|I^{\prime}\right|\left|C\right|$. Therefore, the total cost before the information is stored in the memory is:
 
-$$
+$
 c\left|I\right|+ c\left|I^{\prime}\right|\left|C\right|
-$$
+$
 
-Every interval of time T^{prime}, R(vj,t) detects the information in the memory. 
+Every interval of time $T^{\prime} $, R(vj,t) detects the information in the memory. 
 
 There are N layers $\Gamma $ = $\{\varepsilon_1, \varepsilon_1, ...\varepsilon_N, \varepsilon_\text{junk} \}$. The cost of each detection is:
 
-$$
+$
 c\sum_{1}^{N}\left | \varepsilon_i \right| \left ( 1 + \left |\varepsilon_\text{junk} \right | \right )
-$$
+$
 
-A total of $T^{\prime}$ detections are performed. Therefore, the total cost is:
+A total of $T$ detections are performed. Therefore, the total cost is:
 
-$$
+$
 cT\left( \left|I\right|+ \left|I^{\prime}\right|\left|C\right| \right) + cT^{\prime}\sum_{1}^{N}\left | \varepsilon_i \right| \left ( 1 + \left |\varepsilon_\text{junk}^t \right |\right)
-$$
+$
 
 The above is the computational overhead of the Agentsafe architecture. Next, we will calculate the computational overhead reduction brought by Agentsafe.
 
 
 First, the amount of irrelevant or harmful information that failed to enter the memory in round $t$ is $\left | I \right | - \left | I^{\prime\prime} \right |$. This part is stored in the junk memory and will not participate in the subsequent agent task execution process. Therefore, the cost saved is:
 
-$$
+$
 c\left(T - t \right) \left |\varepsilon_\text{junk}^t \right |
-$$
+$
 
 Since each agent task only needs to be based on historical data that does not exceed the accepted information security level, assuming that the security level of the information at time $t$ is $k_t$, the cost saved is:
 
-$$
+$
 c\sum_{k}^{N}\left | \varepsilon_i \right|
-$$
+$
 
 The net cost is:
 
-$$
+$
 \Delta = cT\left( \left|I\right|+ \left|I^{\prime}\right|\left|C\right| \right) + cT^{\prime}\sum_{1}^{N}\left | \varepsilon_i \right| \left ( 1 + \left |\varepsilon_\text{junk}^t \right |\right) - c\sum_{t}^{N}\left( T- t\right)\left |\varepsilon_\text{junk}^t \right | - c\sum_{t}^{T}\sum_{k_t}^{N}\left | \varepsilon_i \right|
-$$
+$
 
-When **AgentSafe** is attacked more frequently, more data will accumulate in the junk memory. Considering that $T^{\prime}$ is much smaller than $T$, the system overhead is reduced compared to normal conditions. Alternatively, when most tasks received by the agent are relatively regular (i.e., at a lower security level), a smaller amount of information enters the junk memory, which leads to more efficient memory utilization and lower system costs. Therefore, the net cost effectively balances between the increased junk memory content during attacks and the efficiency of the task execution based on the security levels of the information.
+When **Agentsafe** is attacked more frequently, more data will accumulate in the junk memory. Considering that $T^{\prime}$ is much smaller than $T$, **the system overhead is reduced compared to normal conditions**. Alternatively, when most tasks received by the agent are relatively regular (i.e., at a lower security level), a smaller amount of information enters the junk memory, which leads to more efficient memory utilization and lower system costs. Therefore, **the net cost effectively balances between the increased junk memory content during attacks and the efficiency of the task execution based on the security levels of the information**.
 
 > <font color=FireBrick>**Weakness 3**</font>: I didn't find the value in most of the formal definitions in the paper.
 
